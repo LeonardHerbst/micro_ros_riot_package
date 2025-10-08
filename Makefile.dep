@@ -1,0 +1,12 @@
+FEATURES_REQUIRED += cpp
+USEMODULE += micro_ros_transports
+
+USEMODULE += tsrb
+USEMODULE += ztimer
+USEMODULE += ztimer_msec
+
+ifeq (,$(filter native native32 native64,$(BOARD)))
+  CFLAGS += -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK
+  USEMODULE += posix_headers
+  USEMODULE += micro_ros_time
+endif

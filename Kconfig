@@ -1,0 +1,46 @@
+#SPDX-FileCopyrightText: 2025 TU Dresden
+#SPDX-License-Identifier: LGPL-2.1-only
+
+menu "Micro ROS"
+    depends on USEPKG_MICRO_ROS
+
+    config MICRO_ROS_MAX_NODES
+    int "Maximum number of nodes for an application."
+    default 1
+    help
+        The maximum number of nodes is used to determine the size of the respective memory
+        pool allocated during initialization.
+
+    config MICRO_ROS_MAX_PUBLISHERS
+        int "Maximum number of publishers for an application."
+        default 1
+        help
+            The maximum number of publishers is used to determine the size of the respective memory
+            pool allocated during initialization.
+
+    config MICRO_ROS_MAX_SUBSCRIPTIONS
+        int "Maximum number of subscriptions for an application."
+        default 1
+        help
+            The maximum number of subscriptions is used to determine the size of the respective memory
+            pool allocated during initialization.
+
+    config MICRO_ROS_MAX_HISTORY
+        int "Size of the middleware message queue."
+        default 4
+
+    config MICRO_ROS_MAX_SERVICES
+        int "Maximum number of services for an application."
+        default 1
+        help
+            The maximum number of services is used to determine the size of the respective memory
+            pool allocated during initialization.
+
+    config MICRO_ROS_MAX_CLIENTS
+        int "Maximum number of clients for an application."
+        default 1
+        help
+            The maximum number of clients is used to determine the size of the respective memory
+            pool allocated during initialization.
+
+endmenu

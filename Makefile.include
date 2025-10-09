@@ -1,10 +1,10 @@
 INCLUDES += -I$(BINDIR)/include
-INCLUDES += -I$(RIOTPKG)/micro_ros/include
+INCLUDES += -I$(MICRO_ROS_MODULE)/include
 
-DIRS += $(RIOTPKG)/micro_ros/contrib/transports
+DIRS += $(MICRO_ROS_MODULE)/contrib/transports
 
 ifneq (,$(filter micro_ros_time,$(USEMODULE)))
-  DIRS += $(RIOTPKG)/micro_ros/contrib/time
+  DIRS += $(MICRO_ROS_MODULE)/contrib/time
 endif
 
 ARCHIVES += $(BINDIR)/micro_ros.a

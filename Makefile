@@ -1,6 +1,6 @@
 PKG_NAME=micro_ros
 PKG_URL=https://github.com/LeonardHerbst/micro_ros_riot
-PKG_VERSION=e3cd976404181b4c7e2403a98e60986b19401941
+PKG_VERSION=27509f61b256125c3da7e08bebd8889480a8c85b
 PKG_LICENSE=LGPL-2.1
 
 include $(RIOTBASE)/pkg/pkg.mk
@@ -9,6 +9,11 @@ CFLAGS += -Wno-error
 CXXFLAGS = $(filter-out $(CXXUWFLAGS), $(CFLAGS)) $(CXXEXFLAGS)
 
 all: $(BINDIR)/micro_ros.a
+
+prepare: $(BINDIR)/.prepared
+
+$(BINDIR)/.prepared:
+	@mkdir -p $(BINDIR)/include
 
 $(BINDIR)/micro_ros.a: $(PKG_BUILD_DIR)/toolchain.cmake $(PKG_BUILD_DIR)/toolchain_host.cmake $(PKG_SOURCE_DIR)/kconfig_vars
 	$(QQ) "$(MAKE)" -C $(PKG_SOURCE_DIR)/ all \
@@ -37,6 +42,7 @@ $(PKG_SOURCE_DIR)/kconfig_vars:
 	fi
 
 clean::
+	$(BINDIR)/.prepared:
 	$(QQ) rm $(PKG_BUILD_DIR)/toolchain.cmake
 	$(QQ) rm $(PKG_BUILD_DIR)/toolchain_host.cmake
 	$(QQ) rm -rf $(PKG_BUILD_DIR)/configured_colcon.meta

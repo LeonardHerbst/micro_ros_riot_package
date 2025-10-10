@@ -1,3 +1,3 @@
-MODULE := micro_ros_transports
+MODULE := micro_ros_udp_transport
 
 include $(RIOTBASE)/Makefile.base

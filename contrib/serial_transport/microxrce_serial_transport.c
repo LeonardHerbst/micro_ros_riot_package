@@ -5,6 +5,8 @@
 
 #include <log.h>
 
+#include <rmw_microros/rmw_microros.h>
+
 #include "tsrb.h"
 #include "ztimer.h"
 
@@ -16,7 +18,30 @@ static uint8_t _buffer_in[RINGBUFFER_SIZE];
 
 static tsrb_t ringbuffer_incoming = TSRB_INIT(_buffer_in);
 
-static void uart_receive_cb(void *arg, uint8_t data) {
+static serial_transport_params_t serial_params;
+
+int serial_set_custom_transport(uart_t dev, uint32_t baud)
+{
+    printf("Initializing the uart transport: with dev %u and a baud rate of %lu!\n", dev, baud);
+    serial_params.dev	= UART_DEV(dev);
+    serial_params.baud 	= baud;
+    rmw_ret_t ret = rmw_uros_set_custom_transport(
+        true,
+        (void *) &serial_params,
+        serial_transport_open,
+        serial_transport_close,
+        serial_transport_write,
+        serial_transport_read
+    );
+    if (ret != RMW_RET_OK) {
+        LOG_ERROR("Failed setting the custom udp transport!\n");
+        return -1;
+    }
+    return 0;
+}
+
+static void uart_receive_cb(void *arg, uint8_t data)
+{
     (void) arg;
 
     int re = tsrb_add_one(&ringbuffer_incoming, data);

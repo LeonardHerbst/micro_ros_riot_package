@@ -1,7 +1,14 @@
 INCLUDES += -I$(BINDIR)/include
-INCLUDES += -I$(MICRO_ROS_MODULE)/include
 
-DIRS += $(MICRO_ROS_MODULE)/contrib/transports
+ifneq (,$(filter micro_ros_serial_transport,$(USEMODULE)))
+  INCLUDES += -I$(MICRO_ROS_MODULE)/contrib/serial_transport/include
+  DIRS += $(MICRO_ROS_MODULE)/contrib/serial_transport
+endif
+
+ifneq (,$(filter micro_ros_udp_transport,$(USEMODULE)))
+  INCLUDES += -I$(MICRO_ROS_MODULE)/contrib/udp_transport/include
+  DIRS += $(MICRO_ROS_MODULE)/contrib/udp_transport
+endif
 
 ifneq (,$(filter micro_ros_time,$(USEMODULE)))
   DIRS += $(MICRO_ROS_MODULE)/contrib/time

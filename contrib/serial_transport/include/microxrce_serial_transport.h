@@ -37,6 +37,9 @@ extern "C"
         uint32_t baud;
     } serial_transport_params_t;
 
+
+    int serial_set_custom_transport(uart_t dev, uint32_t baud);
+
     /**
      * @brief   Opening the serial transport.
      *

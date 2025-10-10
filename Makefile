@@ -5,6 +5,11 @@ PKG_LICENSE=LGPL-2.1
 
 include $(RIOTBASE)/pkg/pkg.mk
 
+ifeq (,$(filter micro_ros_%_transport,$(USEMODULE)))
+  $(error "Please specify a transport that Micro-ROS should use. \
+  Either USEMODULE=micro_ros_serial_transport or USEMODULE=micro_ros_udp_transport")
+endif
+
 CFLAGS += -Wno-error
 CXXFLAGS = $(filter-out $(CXXUWFLAGS), $(CFLAGS)) $(CXXEXFLAGS)
 
@@ -38,7 +43,7 @@ $(PKG_BUILD_DIR)/toolchain_host.cmake:
 
 $(PKG_SOURCE_DIR)/kconfig_vars:
 	@if [ -f $(BINDIR)/generated/out.config ]; then \
-		grep 'CONFIG_MICRO_ROS_' $< > $@; \
+		grep 'CONFIG_MICRO_ROS_' $(BINDIR)/generated/out.config > $@; \
 	fi
 
 clean::

@@ -58,7 +58,6 @@ bool udp_transport_open(struct uxrCustomTransport *transport)
         return false;
     }
 
-	printf("Opened transport...\n");
     return true;
 }
 
@@ -68,7 +67,6 @@ bool udp_transport_close(struct uxrCustomTransport *transport)
 
     sock_udp_close(&sock);
 
-	printf("Closed transport...\n");
     return true;
 }
 

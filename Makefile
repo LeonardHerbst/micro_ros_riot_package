@@ -9,6 +9,11 @@ ifeq (,$(filter micro_ros_%_transport,$(USEMODULE)))
   $(error "Please specify a transport that Micro-ROS should use. \
   Either USEMODULE=micro_ros_serial_transport or USEMODULE=micro_ros_udp_transport")
 endif
+ifneq (,$(filter micro_ros_serial_transport,$(USEMODULE)))
+  ifneq (,$(filter micro_ros_serial_transport,$(USEMODULE)))
+    $(error "micro_ros_serial_transport and micro_ros_udp_transport are mutually exclusive!")
+  endif
+endif
 
 CFLAGS += -Wno-error
 CXXFLAGS = $(filter-out $(CXXUWFLAGS), $(CFLAGS)) $(CXXEXFLAGS)

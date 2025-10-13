@@ -34,7 +34,7 @@ int udp_set_custom_transport(char *ip_str, uint32_t port)
         return -1;
     }
     rmw_ret_t ret = rmw_uros_set_custom_transport(
-        true,
+        false,
         (void *) &udp_params,
         udp_transport_open,
         udp_transport_close,
@@ -52,13 +52,13 @@ bool udp_transport_open(struct uxrCustomTransport *transport)
 {
     udp_transport_params_t *params = (udp_transport_params_t*) transport->args;
 
-	// TODO: try ephemeral
-	local.port = params->remote.port;
-    if (sock_udp_create(&sock, &local, NULL, 0) < 0) {
-        LOG_ERROR("Error creating UDP sock");
+	local.port = 0;
+    if (sock_udp_create(&sock, &local, &params->remote, 0) < 0) {
+        LOG_ERROR("Error creating UDP sock\n");
         return false;
     }
 
+	printf("Opened transport...\n");
     return true;
 }
 
@@ -68,15 +68,17 @@ bool udp_transport_close(struct uxrCustomTransport *transport)
 
     sock_udp_close(&sock);
 
+	printf("Closed transport...\n");
     return true;
 }
 
 size_t udp_transport_write(struct uxrCustomTransport *transport, const uint8_t * buf, size_t len, uint8_t * err)
 {
     (void) err;
+	(void) transport;
 
-	udp_transport_params_t *params = (udp_transport_params_t*) transport->args;
-    ssize_t bytes_send = sock_udp_send(&sock, (void *) buf, len, &params->remote);
+	// udp_transport_params_t *params = (udp_transport_params_t*) transport->args;
+    ssize_t bytes_send = sock_udp_send(&sock, (void *) buf, len, NULL);
 
     if (bytes_send >= 0) {
         *err = 0;
@@ -86,25 +88,25 @@ size_t udp_transport_write(struct uxrCustomTransport *transport, const uint8_t *
     switch (bytes_send)
     {
     case -EADDRINUSE:
-        LOG_ERROR("Error: No available ephemeral ports or socket has no local endpoint.");
+        LOG_ERROR("Error: No available ephemeral ports or socket has no local endpoint.\n");
         break;
     case -EAFNOSUPPORT:
-        LOG_ERROR("Error: Address family of remote endpoint is not supported.");
+        LOG_ERROR("Error: Address family of remote endpoint is not supported.\n");
         break;
     case -EHOSTUNREACH:
-        LOG_ERROR("Error: Remote endpoint is not reachable.");
+        LOG_ERROR("Error: Remote endpoint is not reachable.\n");
         break;
     case -EINVAL:
-        LOG_ERROR("Error: Invalid address, port is 0, or network interface mismatch.");
+        LOG_ERROR("Error: Invalid address, port is 0, or network interface mismatch.\n");
         break;
     case -ENOMEM:
-        LOG_ERROR("Error: Not enough memory to send data.");
+        LOG_ERROR("Error: Not enough memory to send data.\n");
         break;
     case -ENOTCONN:
-        LOG_ERROR("Error: Socket is not connected and no remote endpoint was specified.");
+        LOG_ERROR("Error: Socket is not connected and no remote endpoint was specified.\n");
         break;
     default:
-        LOG_ERROR("Error: Unknown error occurred during UDP send.");
+        LOG_ERROR("Error: Unknown error occurred during UDP send.\n");
         break;
     }
     *err = 1;
@@ -127,28 +129,27 @@ size_t udp_transport_read(struct uxrCustomTransport *transport, uint8_t* buf, si
     switch (bytes_received)
     {
     case -EADDRNOTAVAIL:
-        LOG_ERROR("Error: Socket has no local address configured.");
+        LOG_ERROR("Error: Socket has no local address configured.\n");
         break;
     case -EAGAIN:
-        LOG_ERROR("Error: No data available and timeout was set to 0 (non-blocking).");
         break;
     case -EINVAL:
-        LOG_ERROR("Error: Invalid remote address or socket improperly initialized or closed.");
+        LOG_ERROR("Error: Invalid remote address or socket improperly initialized or closed.\n");
         break;
     case -ENOBUFS:
-        LOG_ERROR("Error: Receive buffer too small for incoming data.");
+        LOG_ERROR("Error: Receive buffer too small for incoming data.\n");
         break;
     case -ENOMEM:
-        LOG_ERROR("Error: Not enough memory to receive data.");
+        LOG_ERROR("Error: Not enough memory to receive data.\n");
         break;
     case -EPROTO:
-        LOG_ERROR("Error: Packet source does not match expected remote address.");
+        LOG_ERROR("Error: Packet source does not match expected remote address.\n");
         break;
     case -ETIMEDOUT:
-        LOG_ERROR("Error: Receive operation timed out.");
+        LOG_ERROR("Error: Receive operation timed out.\n");
         break;
     default:
-        LOG_ERROR("Error: Unknown error occurred during UDP receive.");
+        LOG_ERROR("Error: Unknown error occurred during UDP receive.\n");
         break;
     }
     *err = 1;

@@ -4,15 +4,15 @@
  */
 
 #include <stdio.h>
-#include <log.h>
 
 #include <rmw_microros/rmw_microros.h>
+#include "microxrce_udp_transport.h"
 
 #include "net/af.h"
 #include "net/protnum.h"
 #include "net/ipv6/addr.h"
-
-#include "microxrce_udp_transport.h"
+#include "log.h"
+#include "ztimer.h"
 
 static sock_udp_t sock;
 static sock_udp_ep_t local = SOCK_IPV6_EP_ANY;
@@ -75,7 +75,8 @@ size_t udp_transport_write(struct uxrCustomTransport *transport, const uint8_t *
     (void) err;
 	(void) transport;
 
-	// udp_transport_params_t *params = (udp_transport_params_t*) transport->args;
+    ztimer_sleep(ZTIMER_MSEC, 10);
+
     ssize_t bytes_send = sock_udp_send(&sock, (void *) buf, len, NULL);
 
     if (bytes_send >= 0) {
@@ -116,7 +117,6 @@ size_t udp_transport_read(struct uxrCustomTransport *transport, uint8_t* buf, si
 	(void) transport;
     (void) err;
 
-	//udp_transport_params_t *params = (udp_transport_params_t*) transport->args; TODO: add remote back if possible
     ssize_t bytes_received = sock_udp_recv(&sock, (void*) buf, len, timeout * US_PER_MS, NULL);
 
     if (bytes_received >= 0) {

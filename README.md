@@ -6,10 +6,17 @@ This external package integrates Micro-ROS with the RIOT operating system.
 It allows building and running Micro-ROS applications on RIOT-supported hardware.
 Verified to work with RIOT version 2025.04.
 
-To include this package in your project, add `EXTERNAL_PKG_DIRS += <external packages directory>` to your application's makefile
-and specify the Micro-ROS module path with `MICRO_ROS_MODULE ?= <micro ROS directory>`.
-Then Micro-ROS can be used like a regular package: `USEPKG += micro_ros`.
-The repository must be cloned into a directory named `micro_ros` in the external packages directory; other names are not supported.
+## Getting Started
+To Use this package, add the following line to your application's makefile:
+```makefile
+EXTERNAL_PKG_DIRS += <external packages directory>
+MICRO_ROS_MODULE ?= <micro ROS directory>
+
+USEPKG += micro_ros
+```
+
+The repository must be cloned into a directory named `micro_ros` in the external packages directory; 
+other names are not supported.
 
 Examples showing how to set up the Micro-ROS agent and use Micro-ROS with RIOT can be found here: [examples].
 

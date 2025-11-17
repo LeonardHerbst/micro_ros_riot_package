@@ -25,10 +25,6 @@ menu "Micro ROS"
             The maximum number of subscriptions is used to determine the size of the respective memory
             pool allocated during initialization.
 
-    config MICRO_ROS_MAX_HISTORY
-        int "Size of the middleware message queue."
-        default 4
-
     config MICRO_ROS_MAX_SERVICES
         int "Maximum number of services for an application."
         default 1

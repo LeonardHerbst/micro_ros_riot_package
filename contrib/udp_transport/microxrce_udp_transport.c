@@ -12,7 +12,6 @@
 #include "net/protnum.h"
 #include "net/ipv6/addr.h"
 #include "log.h"
-#include "ztimer.h"
 
 static sock_udp_t sock;
 static sock_udp_ep_t local = SOCK_IPV6_EP_ANY;
@@ -52,7 +51,7 @@ bool udp_transport_open(struct uxrCustomTransport *transport)
 {
     udp_transport_params_t *params = (udp_transport_params_t*) transport->args;
 
-	local.port = 0;
+    local.port = 0;
     if (sock_udp_create(&sock, &local, &params->remote, 0) < 0) {
         LOG_ERROR("Error creating UDP sock\n");
         return false;
@@ -73,9 +72,7 @@ bool udp_transport_close(struct uxrCustomTransport *transport)
 size_t udp_transport_write(struct uxrCustomTransport *transport, const uint8_t * buf, size_t len, uint8_t * err)
 {
     (void) err;
-	(void) transport;
-
-    ztimer_sleep(ZTIMER_MSEC, 10);
+    (void) transport;
 
     ssize_t bytes_send = sock_udp_send(&sock, (void *) buf, len, NULL);
 
@@ -114,7 +111,7 @@ size_t udp_transport_write(struct uxrCustomTransport *transport, const uint8_t *
 
 size_t udp_transport_read(struct uxrCustomTransport *transport, uint8_t* buf, size_t len, int timeout, uint8_t* err)
 {
-	(void) transport;
+    (void) transport;
     (void) err;
 
     ssize_t bytes_received = sock_udp_recv(&sock, (void*) buf, len, timeout * US_PER_MS, NULL);

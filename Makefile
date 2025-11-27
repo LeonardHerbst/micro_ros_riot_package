@@ -1,6 +1,6 @@
 PKG_NAME=micro_ros
 PKG_URL=https://github.com/LeonardHerbst/micro_ros_riot
-PKG_VERSION=c60b709bd8d15bac5688bab5a5659a380fe36547
+PKG_VERSION=18f9ab8cad08423d8c5ad6c4d3dc9a83c699d943
 PKG_LICENSE=LGPL-2.1
 
 include $(RIOTBASE)/pkg/pkg.mk

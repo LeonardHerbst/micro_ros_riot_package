@@ -15,7 +15,5 @@ ifneq (,$(filter micro_ros_udp_transport,$(USEMODULE)))
   USEMODULE += netdev_default
   USEMODULE += auto_init_gnrc_netif
   USEMODULE += gnrc_ipv6_default
-  # we want to be able to open one udp socket
-  CFLAGS += -DCONFIG_GNRC_TCP_RCV_BUFFERS=1
 endif
 

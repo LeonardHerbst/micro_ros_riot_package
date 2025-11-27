@@ -20,4 +20,9 @@ other names are not supported.
 
 Examples showing how to set up the Micro-ROS agent and use Micro-ROS with RIOT can be found here: [examples].
 
+When using the UDP transport over a noisy medium, that is prone to packet loss, it is recommended to
+set the `MICRO_ROS_STREAM_HISTORY_OUTPUT` parameter at least to `8`.
+When this parameter is too small and acknowledgments are lost, the buffer that holds unacknowledged fragments fills up
+and further fragments cannot be sent. This can cause creation of new nodes, subscriptions, topics, etc. to fail.
+
 [examples]: https://github.com/LeonardHerbst/micro_ros_riot_examples

@@ -4,39 +4,59 @@
 menu "Micro ROS"
     depends on USEPKG_MICRO_ROS
 
-    config MICRO_ROS_MAX_NODES
-    int "Maximum number of nodes for an application."
+config MICRO_ROS_MAX_NODES
+int "Maximum number of nodes for an application."
+default 1
+help
+    The maximum number of nodes is used to determine the size of the respective memory
+    pool allocated during initialization.
+
+config MICRO_ROS_MAX_PUBLISHERS
+    int "Maximum number of publishers for an application."
     default 1
     help
-        The maximum number of nodes is used to determine the size of the respective memory
+        The maximum number of publishers is used to determine the size of the respective memory
         pool allocated during initialization.
 
-    config MICRO_ROS_MAX_PUBLISHERS
-        int "Maximum number of publishers for an application."
-        default 1
-        help
-            The maximum number of publishers is used to determine the size of the respective memory
-            pool allocated during initialization.
+config MICRO_ROS_MAX_SUBSCRIPTIONS
+    int "Maximum number of subscriptions for an application."
+    default 1
+    help
+        The maximum number of subscriptions is used to determine the size of the respective memory
+        pool allocated during initialization.
 
-    config MICRO_ROS_MAX_SUBSCRIPTIONS
-        int "Maximum number of subscriptions for an application."
-        default 1
-        help
-            The maximum number of subscriptions is used to determine the size of the respective memory
-            pool allocated during initialization.
+config MICRO_ROS_MAX_SERVICES
+    int "Maximum number of services for an application."
+    default 1
+    help
+        The maximum number of services is used to determine the size of the respective memory
+        pool allocated during initialization.
 
-    config MICRO_ROS_MAX_SERVICES
-        int "Maximum number of services for an application."
-        default 1
-        help
-            The maximum number of services is used to determine the size of the respective memory
-            pool allocated during initialization.
+config MICRO_ROS_MAX_CLIENTS
+    int "Maximum number of clients for an application."
+    default 1
+    help
+        The maximum number of clients is used to determine the size of the respective memory
+        pool allocated during initialization.
 
-    config MICRO_ROS_MAX_CLIENTS
-        int "Maximum number of clients for an application."
-        default 1
-        help
-            The maximum number of clients is used to determine the size of the respective memory
-            pool allocated during initialization.
+config MICRO_ROS_MAX_HISTORY
+    int "Maximum number of messages to be stored in history per publisher/subscription."
+    default 8
+    help
+        The maximum number of messages to be stored in history per publisher/subscription.
+        This value is used to size the respective memory pools allocated during initialization.
 
+config MICRO_ROS_STREAM_HISTORY_OUTPUT
+    int "Number of MTUs to buffer for output streams."
+    default 8
+    help
+        This value determines how many MTUs (Maximum Transmission Units) are buffered for output streams.
+        This is the maximum number of fragments that can be unacknowledged at any time.
+
+config MICRO_ROS_STREAM_HISTORY_INPUT
+    int "Number of MTUs to buffer for input streams."
+    default 4
+    help
+        This value determines how many MTUs (Maximum Transmission Units) are buffered for input streams.
+        These stored fragments are incoming packets waiting to be processed and reassembled by the client.
 endmenu
